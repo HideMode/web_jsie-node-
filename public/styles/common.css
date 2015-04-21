@@ -1,0 +1,254 @@
+body a:focus{outline: none;}
+
+/*ajax-checking*/
+.loading{
+    background-image: url(/images/ajax-loader1.gif);
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+}
+.error{
+    display: inline-block;
+    padding: 5px;
+    font-size: 11px;
+    color: #494620;
+    background: #f7ea57;
+    border: 1px solid #c0b536;
+    border-top-color: #fff;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    width: 95%;
+}
+
+
+/*modal-dialog*/
+.modal-header .modal_btn {
+    height: 100%;
+    width: 100px;
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 30px;
+    margin-top: -15px;
+    margin-bottom: -17px;
+}
+
+.current {
+    
+    color: #ffaf15;
+    border-bottom: 2px #ffaf15 solid;
+}
+
+.modal-body .center-block{
+    width: 300px;
+}
+
+/**/
+.main-content{
+    margin-top: 10px;
+}
+.content-list{
+    padding: 1px 10px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #666;
+    font-size: 13px;
+}
+.content-list a:hover{
+    text-decoration: underline;
+    color:#337ab7;
+}
+
+.profile-item{
+    padding: 12px 0;
+}
+
+.question_link{
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+/*导航*/
+#msg-show {
+	padding:0 auto; 
+	font:italic bold 20px/50% arial,sans-serif;
+    color: #337ab7;
+}
+
+}
+
+#msg-show #msgNum {
+	color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  height: 16px;
+  left: 32px;
+  line-height: 14px;
+  padding: 0 4px;
+  position: absolute;
+  top: 12px;
+  background-color: #c9394a;
+}
+
+
+/*个人信息*/
+.thumbnail-name {
+  border-bottom: 1px solid #eee;
+}
+
+.thumbnail-regtime {
+  border-bottom: 1px solid #eee;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.thumbnail-stats {
+    padding-top: 15px;
+}
+
+.thumbnail-signature {
+  padding-top: 15px;
+  border-bottom: 1px solid #eee;
+}
+.menu-item {
+  position: relative;
+  display: block;
+  padding: 8px 15px;
+  text-shadow: 0 1px 0 #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.menu a {
+  color: #4183c4;
+  text-decoration:none;
+}
+a {
+background: transparent;
+}
+.menu-item:hover{
+text-decoration:none;background-color:#f9f9f9
+}
+.menu-item.selected {
+  font-weight: bold;
+  color: #222;
+  cursor: default;
+  background-color: #fff;
+}
+.menu-item.selected:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 2px;
+  content: "";
+  background-color: #d26911;
+}
+
+.menu {
+  margin-bottom: 15px;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+}
+.menu-heading {
+  display: block;
+  padding: 8px 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #555;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #eee;
+}
+
+/*course detail*/
+.chapter h3{
+  color: #303538;
+}
+.chapter h3 {
+  background: none repeat scroll 0 0 #f2f7fa;
+  cursor: pointer;
+  font-family: 微软雅黑;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  padding: 0 13px 0 0;
+}
+.chapter h3 span {
+  color: #b4bbbf;
+  cursor: pointer;
+  display: block;
+  float: right;
+  font-weight: bold;
+  text-align: center;
+  width: 10px;
+}
+.chapter strong {
+  display: block;
+  float: left;
+  overflow: hidden;
+  padding: 0 0 0 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 345px;
+}
+.chapter ul {
+  list-style: none outside none;
+  padding: 0;
+  margin: 0;
+}
+.chapter-active ul {
+  display: block;
+  margin-bottom: 10px;
+}
+.chapter .sub li {
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 2px;
+  width:100%;
+}
+.chapter .sub li:hover {
+  background: none repeat scroll 0 0 #f8f8f8;
+}
+.chapter h3:hover {
+  background: #d3dce0;
+}
+.unopen h3 {
+  background: none repeat scroll 0 0 #f2f7fa;
+  cursor: pointer;
+  font-family: 微软雅黑;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  padding: 0 13px 0 0;
+}
+.unopen h3 {
+color: #909b9e;
+}
+.unopen em {
+  float: right;
+  font-size: 12px;
+}
+.chapter .sub li a {
+  color: #60686b;
+  display: block;
+  height: 40px;
+  overflow: hidden;
+  padding: 0 0 0 28px;
+  word-break: break-all;
+}
+.chapter .sub li a:hover {
+  color: #4d5559;
+  text-decoration: underline;
+}

@@ -1,0 +1,34 @@
+extends ../layout.jade
+
+block content
+	.row-fluid
+		.page-header
+			h1 管理员列表
+		form.form-inline#form-register
+			.form-group
+				lable.sr-only(for="username") 用户名
+				input#username.form-control(type="text", name="username", placeholder="输入用户名")
+			.form-group
+				lable.sr-only(for="password") 密码
+				input#password.form-control(type="password", name="password", placeholder="输入密码")
+			.form-group
+				select.form-control#role
+					option(value="11" selected) 普通管理员
+					option(value="12") 超级管理员
+			button.btn.btn-primary(type="submit") 创建账号
+		table.table.table-striped.table-bordered.table-hover.table-condensed
+			thead
+				tr
+					th 序号
+					th 用户名
+					th 邮箱
+					th 权限
+					th 注册时间
+			tbody
+				each admin, index in admins
+					tr
+						td= index+1
+						td= admin.username
+						td= admin.email
+						td= admin.role
+						td= moment(admin.meta.createtime).format('MM/DD/YYYY')

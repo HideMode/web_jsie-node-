@@ -1,0 +1,42 @@
+extends ../layout.jade
+
+block content
+	.page-header
+		h1 课程列表
+	table.table.table-striped.table-bordered.table-hover.table-condensed
+		thead
+			tr
+				th 序号
+				th 课程名称
+				th 作者
+				th 录入时间
+				th
+		tbody
+			each course, index in courses
+				tr
+					td= index + 1
+					td= course.title
+					td= course.author
+					td= moment(course.meta.uploadTime).format('MM/DD/YYYY')
+					td
+						.btn-group
+								a.btn.btn-sm.dropdown-toggle(data-toggle='dropdown', href='#') 操作
+									span.caret
+								ul.dropdown-menu.pull-right
+									li
+										a(href="/admin/course/#{course._id}")
+											span.glyphicon.glyphicon-pencil
+											| 编辑
+									li
+										a(href="javascript:;")
+											span.glyphicon.glyphicon-remove
+											| 删除
+	a.btn.btn-success(href="/admin/newcourse") 添加课程
+	nav
+		ul.pagination
+			li
+				a(href='#', aria-lable='Previous')
+					span(aria-hidden='true') &laquo;
+			li
+				a(href='#', aria-label='Next')
+					span(aria-hidden='true') &raquo;

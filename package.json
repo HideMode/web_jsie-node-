@@ -1,0 +1,37 @@
+{
+  "name": "web_jsie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.11.0",
+    "connect-mongo": "^0.7.0",
+    "connect-session": "0.0.1",
+    "cookie-parser": "^1.3.4",
+    "express": "^4.11.1",
+    "express-session": "^1.10.1",
+    "formidable": "^1.0.17",
+    "jade": "^1.9.1",
+    "mongoose": "^3.8.21",
+    "multer": "^0.1.7",
+    "nodemailer": "^1.3.0",
+    "require": "^2.4.17",
+    "ueditor": "^1.1.1",
+    "ueditor-nodejs": "^0.1.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-qunit": "^0.5.2",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-nodemon": "^0.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HideMode <tcp_private@outlook.com>",
+  "license": "MIT"
+}

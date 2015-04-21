@@ -1,0 +1,17 @@
+extends ../userlayout.jade
+
+block script
+  script(data-main="js/settings/boot", type="text/javascript", src="/libs/require.js")
+
+block content
+  #content
+    .container
+      .setting-left.col-sm-2
+        nav.menu
+          h3.menu-heading 个人设置
+          a#menu-profile.selected.menu-item(href='#profile') 个人资料
+          a#menu-avatar.menu-item(href='#avatar') 头像设置
+          a#menu-email.menu-item(href='#email') 邮箱验证
+          a#menu-password.menu-item(href='#password') 修改密码
+      .setting-content-wrap.col-sm-10
+        #setting-content

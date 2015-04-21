@@ -1,0 +1,28 @@
+extends ../userlayout.jade
+	
+block script
+	//script(data-main="js/course/boot", type="text/javascript", src="/libs/require.js")
+block content
+	.container
+		.row
+			.col-md-2
+				nav.menu
+					h3.menu-heading 课程
+					a.selected.menu-item(href='#') 全部
+					a.menu-item(href='#') 计算机
+					a.menu-item(href='#') 数学
+					a.menu-item(href='#') 生物
+					a.menu-item(href='#') 艺术
+			.col-md-9
+				ol.breadcrumb
+					li: a(href="#") Home
+					li: a(href="#") Second
+				.row
+					each course in courses
+						.col-md-4
+							a.thumbnail(href="/course/#{course.id}")
+								img(style="width: 100%; height: 160px; display: block;",src="#{course.poster}", alt="",data-src="holder.js/100%x160", data-holder-rendered="true")
+								.caption
+									h5= course.title
+			
+		

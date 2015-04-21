@@ -1,0 +1,17 @@
+extends ../userlayout.jade
+
+block script
+  script(data-main="js/discuss/boot", type="text/javascript", src="/libs/require.js")
+
+block content
+  div.container
+      div.row
+        div.col-md-2
+          nav.menu
+            a.menu-item.selected(href='#') 全部问答
+            a.menu-item(href='#') 我的问答
+            a.menu-item(href='#') 最新消息
+        div.col-md-7
+          div.main-content
+        div.col-md-3
+          div.side-bar

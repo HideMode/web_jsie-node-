@@ -1,0 +1,106 @@
+extends ../layout.jade
+block content
+	.page-header
+		h1= course.title
+			small 课程编辑
+	button.btn.btn-primary(data-toggle="modal", data-target="#addChapter") 添加目录
+	//- 课程章节
+	-var chapter = ['第一章','第二章','第三章','第四章','第五章','第六章','第七章']
+	.course_chapter_list
+		each item, index in course.details
+			.chapter(data-chapterId="#{item.id}")
+				h3
+					strong= chapter[item.chapter-1]+" "+item.title
+					span +
+				ul.sub(style="display:none;")
+					each sub, index in item.subs
+						li(data-subId="#{sub.id}")= sub.title
+					a#subBtn.subBtn.btn.btn-primary(data-chapterId="#{item.id}", href='#addSub') 添加章节
+	//- 模态框
+	#addChapter.modal.fade
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button.close(type='button', data-dismiss='modal', aria-label='Close')
+						span(aria-hidden='true') ×
+					h4.modal-title 添加课程目录
+				.modal-body
+					form#subchapter(role="form", action="/admin/addchapter", method="post")
+						input(type="hidden", value="#{course._id}", name="courseId")
+						.form-group
+							select.form-control(name="chapter")
+								each item, index in chapter
+									if isExisted.indexOf(index+1)!=-1
+										option(value='#{index+1}', disabled)= item
+									else
+										option(value='#{index+1}')= item
+						.form-group
+							input.form-control(type="text", placeholder="title", name='title')
+						button.btn.btn-primary(type="submit") 提交
+	#addSub(style="display:none;")
+		.page-header
+			h3 编辑
+				small#subchapter
+		form.form-inline(action="/admin/courseedit", method="post")
+			input(type="hidden", value="#{course._id}", name="courseId")
+			input(type='hidden',name="chapterId")
+			.form-group
+				label(for="subTitle") 标题
+				input#subTitle.form-control(type="text", name="subTitle")
+			script(id="container", name="content", type="text/plain", style="height:300px;width:100%")
+			button.btn.btn-primary(role="submit") 提交
+	script(type="text/javascript", charset="UTF-8", src="/ueditor/ueditor.config.js")
+	script(type="text/javascript", charset="UTF-8", src="/ueditor/ueditor.all.min.js")
+	script.
+		$(function() {
+			var ue = UE.getEditor('container');
+			$('.chapter h3').click(function(event) {
+				if ($(this).parent().hasClass('chapter-active')) {
+					$(this).next('.sub').slideUp('fast', function() {
+						$(this).parent().removeClass('chapter-active');
+					});
+					$(this).find('span').html('+');
+				} else {
+					$(this).next('.sub').slideDown('fast', function() {
+						$(this).parent().addClass('chapter-active');
+					});
+					$(this).find('span').html('-');
+				}
+			});
+			$('.subBtn').click(function(event){
+				event.preventDefault();
+				var chapterId= $(this).data('chapterid')
+				$('#addSub').slideDown('fast', function(){
+					$('#subchapter').text()
+					$('input[name="chapterId"]').val(chapterId)
+				});
+			});
+			$("ul.sub>li").click(function(event){
+				console.log(event)
+				var courseId = $('input[name="courseId"]').val()
+				var chapterId = $(this).parent().parent().data('chapterid');
+				var subId = $(this).data('subid')
+				$.ajax({
+					url: '/admin/detail',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+					courseId: courseId,
+					chapterId: chapterId,
+					subId: subId
+					},
+				})
+				.done(function(data) {
+					$('#subTitle').val(data.title);
+					ue.setContent(data.content);
+					$('#addSub').slideDown('fast', function(){
+						$('#subchapter').text()
+						$('input[name="chapterId"]').val(chapterId)
+					});
+
+				})
+				.fail(function() {
+					console.log("error");
+				})
+			})			
+		});

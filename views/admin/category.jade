@@ -1,0 +1,62 @@
+extends ../layout.jade
+block head
+block content
+	.page-header
+		h1 课程分类
+	button#addCate.btn.btn-primary 添加主分类
+	form#addcate.form-inline(action="/admin/addcategory", method="post", style="display: none;")
+		.form-group
+			label(for="cateName")
+			input.form-control#cateName(type="text", name="name", placeholder="输入分类名称")
+		button.btn.btn-success(type="submit") 录入
+	.course_category_list
+		each category, index in categories
+			.category(data-categoryId="#{category.id}")
+				h3
+					strong= category.name
+					span +
+				ul.subCategories(style="display:none;")
+					each subCategory, index in category.subCategories
+						li(data-subCategoryId="#{subCategory.id}")
+							a(href="#", target="_blank")= subCategory.name
+					button#subBtn.subBtn.btn.btn-primary 添加二级分类
+					form#addsubcate.form-inline(action="/admin/addsubcategory", method="post", style="display: none;")
+						input(type="hidden", name="categoryId", value="#{category.id}")
+						.form-group
+							label(for="cateName")
+							input.form-control#cateName(type="text", name="subName", placeholder="输入分类名称")
+						button.btn.btn-success(type="submit") 录入
+	script.
+		$(function() {
+			$('.subBtn').click(function(event){
+				if($(this).next('form').css('display')=='inline-block'){				
+						$(this).next('form').css('display', 'none')
+				}else{
+				$(this).next('form').css('display','inline-block');
+				}
+			});
+			$('#addCate').click(function(event){
+				if($(this).next('#addcate').css('display')=='inline-block'){				
+						$(this).next('#addcate').css('display', 'none')
+				}else{
+				$(this).next('#addcate').css('display','inline-block');
+				}
+			});
+			$('.category h3').click(function(event) {
+				if ($(this).parent().hasClass('category-active')) {
+					$(this).next('.subCategories').slideUp('fast', function() {
+						$(this).parent().removeClass('category-active')
+					});
+					$(this).find('span').html('+');
+				} else {
+					$(this).next('.subCategories').slideDown('fast', function() {
+						$(this).parent().addClass('category-active');
+					});
+					$(this).find('span').html('-');
+				}
+			});
+			$('.subBtn').click(function(event){
+				event.preventDefault();
+				var id= $(this).data('categoryId')
+			});
+		});	

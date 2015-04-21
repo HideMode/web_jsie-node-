@@ -1,0 +1,59 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', data-dismiss='modal', aria-label='Close')
+        span(aria-hidden='true') ×
+      h4.modal-title
+        span#modal_login.modal_btn.current(href='javascript:void(0);') 登陆
+        span#modal_register.modal_btn(href='javascript:void(0);') 注册
+    .modal-body
+      #modal-body-register.wrap.center-block
+        form#form-register(role='form', method='post', novalidate="novalidate")
+          fieldset
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-envelope(aria-hidden='true')
+                input#regEmail.form-control(type='text', name='regEmail', placeholder='请输入登陆邮箱')
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-lock
+                .feedback
+                  input#regPwd.form-control(type='password', name='regPwd', placeholder='请输入密码')
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-lock
+                div
+                  input#regCfPwd.form-control(type='password', name='regCfPwd', placeholder='请再次输入密码')
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-user
+                input#regNick.form-control(type='text', name='regNick', placeholder='请输入用户昵称')
+            .form-group
+              button.btn.btn-primary(type='submit', style='width:100%') 注册
+      // login
+      #modal-body-login.wrap.center-block
+        form#form-login.login-form(role='form', method='post', novalidate="novalidate")
+          fieldset
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-envelope(aria-hidden='true')
+                input#loginEmail.form-control(type='text', name='loginEmail', placeholder='请输入登陆邮箱')
+            .form-group
+              .input-group
+                .input-group-addon
+                  span.glyphicon.glyphicon-lock
+                .feedback
+                  input#loginPwd.form-control(type='password', name='loginPwd', placeholder='请输入密码')
+            .form-group
+              .checkbox
+                label
+                  input(type='checkbox', checked)
+                  | 记住密码
+            .form-group
+              button.btn.btn-primary(type='submit', style='width:100%') 登陆
+    .modal-footer 第三方账户

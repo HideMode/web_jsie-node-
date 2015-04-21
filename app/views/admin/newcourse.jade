@@ -1,0 +1,32 @@
+extends ../layout.jade
+block head
+	link(href="/libs/bower_components/jquery-ui/themes/base/jquery-ui.css", rel="stylesheet")
+	link(href="/libs/bower_components/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css", rel="stylesheet")
+	script(src="/libs/bower_components/jquery-ui/jquery-ui.min.js")
+	script(src="/libs/bower_components/plupload/js/plupload.full.min.js")
+	script(src="/libs/bower_components/plupload/js/jquery.ui.plupload/jquery.ui.plupload.min.js")
+	script(src="/libs/bower_components/plupload/js/i18n/zh_CN.js")
+block content
+	.row-fluid
+		.col-md-5
+			.page-header
+				h1 录入课程
+			form#form(method='post', action='/admin/newcourse', enctype="multipart/form-data")
+				.form-group
+					label(for="title") 课程名称
+					input#title.form-control(type="text")
+				.form-group
+					label(for="author") 授课教师
+					input#author.form-control(type="text")
+				.form-group
+					label 课程分类
+					select#cate
+						option(value="0", selected) 请选择课程分类
+					select#subCate(style="display:none;")
+						option(value="0", selected) 请选择二级分类
+				textarea#summary.form-control(rows="3", placeholder="课程简介")
+				button#posterBtn.btn.btn-primary(role="button") 上传海报
+				#poster
+					#uploader
+						p 对不起,你的浏览器不支持Flash, Silverlight, HTML5.
+			script(src="/js/upload.js")

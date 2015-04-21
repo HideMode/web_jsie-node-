@@ -1,0 +1,57 @@
+doctype html
+html
+	head
+		include ./includes/head
+	body.admin-page
+		.page-loading-overlay
+			.loader
+		include ./includes/header.jade
+		.container-flud
+			.row-flud
+				.col-md-3
+					.well.side-nav
+						ul.nav.nav-list
+							li.nav-header
+								span.glyphicon.glyphicon-wrench
+								| 用户管理
+							li
+								a(href='/admin/userlist') 用户
+							li
+								a(href="/admin/adminlist") 管理员
+							li.nav-header
+								span.glyphicon.glyphicon-tags
+								| 分类
+							li
+								a(href="/admin/category") 课程分类
+							li
+								a(href="#") 话题分类
+							li.nav-header
+								span.glyphicon.glyphicon-film
+								| 课程管理
+							li
+								a(href="/admin/courselist") 查看
+							li
+								a(href="/admin/newcourse") 添加
+							li
+								a(href="/admin/courseedit") 编辑
+							li.nav-header
+								span.glyphicon.glyphicon-stats
+								| 数据统计
+							li
+								a 用户
+							li
+								a 角色
+							li.nav-header
+								span.glyphicon.glyphicon-user
+								| 个人信息
+							li
+								a 个人资料
+							li
+								a 注销		
+				.col-md-9
+					block content
+		include ./includes/footer.jade
+		script(src="/libs/bower_components/bootstrap/dist/js/bootstrap.min.js", type="text/javascript")
+		//script(src="/libs/bower_components/jquery-validation/dist/jquery.validate.min.js")
+		//- script(src="/js/common.js")
+		script(src='/js/admin.js')

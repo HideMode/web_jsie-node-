@@ -1,0 +1,17 @@
+{
+  "name": "web_jsie",
+  "version": "1.0.0",
+  "authors": [
+    "HideMode <tcp_private@outlook.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "bootstrap": "~3.3.2",
+    "plupload": "~2.1.2",
+    "require": "*",
+    "jquery-ui": "~1.11.4",
+    "kindeditor": "*",
+    "ueditor": "~1.4.3"
+  }
+}

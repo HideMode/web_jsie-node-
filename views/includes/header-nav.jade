@@ -1,0 +1,54 @@
+nav.navbar.navbar-default(role='navigation')
+	.container-fluid
+		.container
+			.navbar-header
+				a.navbar-brand(href='/')
+					img(alt='Brand', src='/images/logo.jpg', width="20", height="20")
+				p.navbar-text jsie.com
+			.collapse.navbar-collapse
+				ul.nav.navbar-nav
+					li
+						a(href='/course') 课程
+					li
+						a(href='/discuss') 问答
+					if isLogined
+						li
+							a(href='/account') 我的课程
+				ul#user.nav.navbar-nav.navbar-right
+					if !isLogined
+						li
+							a(href='javascript:void(0)', data-toggle='modal' data-target='#modal' id='nav_login') 登陆
+						li
+							a(href='javascript:void(0)', data-toggle='modal' data-target='#modal' id='nav_register') 注册
+					else
+						li
+							a#msg-show(href='/message', data-toggle='tooltip',data-placement="bottom" title='我的消息')
+								span.glyphicon.glyphicon-comment(aria-hidden='true')
+								span.badge(style="padding:2px;position: relative; top: -12px;background-color:red;") 14
+								//span#msgNum 2
+						li.dropdown
+							a.dropdown-togglen(href='#', data-toggle='dropdown', role='menu', aria-expanded='false')
+								img(src='/images/logo.jpg', width='20', height='20')
+								span= nickname
+									span.glyphicon.glyphicon-chevron-down(style="font-size:10px; padding-left:2px;color: #717272;")
+							ul.dropdown-menu.dropdown-menu-right(role='menu')
+								li(role='presentation')
+									a(href='/account')
+										span.glyphicon.glyphicon-user(aria-hidden='true')
+										span(style='padding-left:10px;') 我的主页
+								li.divider(role='presentation')
+								li(role='presentation')
+									a(href='/settings')
+										span.glyphicon.glyphicon-cog(aria-hidden='true')
+										span(style='padding-left:10px;') 设置
+								li.divider(role='presentation')
+								li
+									a(href='/logout', role='presentation')
+										span.glyphicon.glyphicon-off(aria-hidden='true')
+										span(style='padding-left:10px;') 退出
+				form.navbar-form.navbar-right(role='search')
+					.input-group
+						input.form-control(type='text', placeholder='搜索课程、问答')
+						span.input-group-btn
+							a.btn.btn-default(role='button')
+								span.glyphicon.glyphicon-search(aria-hidden='true') 

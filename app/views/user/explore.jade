@@ -1,0 +1,23 @@
+extends ../userlayout.jade
+
+block content
+	.container
+		.row.content
+			.col-md-push-1.col-md-8
+				.subheader
+					h1 搜索
+				form#subsearch(action="/search", aucomplete="off")
+					.row
+						.form-group.col-md-8
+							input.form-control(type="text", autocomplete="off")
+						button.btn.btn-primary(type="submit") 搜索
+				.search-tabs
+					ul.nav.nav-tabs
+						li.active(role="presentation")
+							a(href="/search/ajax") 课程
+						li(role="presentation")
+							a(href="/search/ajax") 问答
+						li(role="presentation")
+							a(href="/search/ajax") 话题
+				.range-selector
+						

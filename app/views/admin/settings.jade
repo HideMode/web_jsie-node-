@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    include ../includes/head
+    script(data-main="/js/settings/boot", type="text/javascript", src="/libs/require.js")
+
+  body.admin-page
+    .page-loading-overlay
+      .loader
+    include ../includes/header.jade
+    .container-flud
+      .row-flud
+        .col-md-2
+          nav.menu
+            h3.menu-heading 个人设置
+            a#menu-profile.selected.menu-item(href='#profile') 个人资料
+            a#menu-avatar.menu-item(href='#avatar') 头像设置
+            a#menu-email.menu-item(href='#email') 邮箱验证
+            a#menu-password.menu-item(href='#password') 修改密码
+        .col-md-push-1.col-md-8
+          #setting-content
+    a#elevator.go-to-top(href="#", style:="display: none;")
+      img(src="/images/up.png")
+    include ../includes/footer.jade
+    script(src="/static/libs/bootstrap.min.js", type="text/javascript")
+    script(src='/js/admin.js')

@@ -1,0 +1,66 @@
+extends ../userlayout.jade
+block script
+	script(data-main="/js/course/cate/boot", type="text/javascript", src="/static/libs/require.js")
+style.
+	.course_nav .picture {
+	    display: inherit;
+	    float: left;
+	}
+block content
+	.container
+		.course_nav
+			- var poster = course.poster.replace("\\","/")
+			a.picture(href="#")
+				img(src="#{poster}", width="200", height="113")
+			ul
+				li
+					.course_title #{course.title}
+				li
+					.row
+						.col-md-4.dashboard
+							h4 1342
+							p 学习人数
+						.col-md-4.dashboard
+							h4#course_author= course.author
+							p 授课老师
+						.col-md-4.dashboard
+							h4= moment.tz(course.meta.updateTime, zone).format("YYYY-MM-DD")
+							p 更新时间
+		.content
+			-var chapter = ['第一章','第二章','第三章','第四章','第五章','第六章','第七章']
+			.row
+				.col-md-9
+					.panel.panel-success.panel_course_summary
+						.panel-heading
+							h3.panel-title 课程介绍
+						.panel-body
+							.course_shortdecription= course.summary
+					.panel.panel-success.panel_course_cate
+						.panel-heading
+							h3.panel-title 课程目录
+						.panel-body
+							.course_chapter_list
+							input(type="hidden", value="#{course._id}", name="courseId")
+							each item, index in course.details
+								if item.view.length>0
+									.chapter
+										h3
+											span.glyphicon.glyphicon-list(style="float:left;top:12px; left:5px;color:green;")
+											strong= chapter[item.chapter-1]+' '+item.title
+											span +
+										ul.sub(style="display:none;", data-cateid="#{item._id}")
+											each sub, index in item.view
+												li
+													a(href="/view/#{sub._id}")= sub.title
+								else
+									.unopen.chapter
+										h3
+											span.glyphicon.glyphicon-list(style="float:left;top:12px; left:5px;")
+											strong= chapter[item.chapter-1]+item.title
+											em 暂未开放
+				.col-md-3
+					.sidebar
+						.panel.panel-success.panel_course_relation
+							.panel-heading
+								h3.panel-title 相关课程	
+							.panel-body

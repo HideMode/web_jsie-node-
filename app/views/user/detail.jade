@@ -1,0 +1,16 @@
+extends ../userlayout.jade
+
+block script
+	
+block content
+	p= detail.title
+	.container
+		#text-body !{detail.content}
+		nav
+			ul.pager
+				li.previous
+					a(href='#', aria-lable='Previous')
+						span(aria-hidden='true') ← 上一页
+				li.next
+					a(href='#', aria-label='Next')
+						span(aria-hidden='true') 下一页 →

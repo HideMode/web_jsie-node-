@@ -1,16 +1,81 @@
 extends ../userlayout.jade
 
 block script
-	
+	script(data-main="/js/course/detail/boot", type="text/javascript", src="/static/libs/require.js")
 block content
-	p= detail.title
+	if info.prev == -1
+		a.left.previous-control(data-slide="prev", role="button", href="#", data-toggle="tooltip", data-placement="bottom", title="没有了")
+			span(aria-hidden="true", class="glyphicon glyphicon-chevron-left")
+	else
+		a.left.previous-control(data-slide="prev", role="button", href="/view/#{info.prev}", data-toggle="tooltip", data-placement="bottom", title="上一节")
+			span(aria-hidden="true", class="glyphicon glyphicon-chevron-left")
+	if info.next == -1
+		a.right.next-control(data-slide="next", role="button", href="#", data-toggle="tooltip", data-placement="bottom", title="没有了")
+			span(aria-hidden="true", class="glyphicon glyphicon-chevron-right")
+	else			
+		a.right.next-control(data-slide="next", role="button", href="/view/#{info.next}", data-toggle="tooltip", data-placement="bottom", title="下一节")
+			span(aria-hidden="true", class="glyphicon glyphicon-chevron-right")
 	.container
-		#text-body !{detail.content}
-		nav
-			ul.pager
-				li.previous
-					a(href='#', aria-lable='Previous')
-						span(aria-hidden='true') ← 上一页
-				li.next
-					a(href='#', aria-label='Next')
-						span(aria-hidden='true') 下一页 →
+		.main-content
+			h4= detail.title
+			#text-body !{detail.content}
+		.row
+			.col-md-9
+				.panel.panel-success.panel_course_comment
+					.panel-heading
+						h3.panel-title 评论
+					.panel-body
+						if !info.hasComment
+							form.view-comment-form(action="/view/comment", method="post")
+								input(type="hidden", name="viewId", value="#{detail._id}")
+								script(id="container", name="content", type="text/plain", style="height:100px;width:100%; z-index:1;position: relative")
+								.form-command
+									span
+										if !isLogined
+											button.submit-button.btn.btn-warning(disabled) 登陆后提交
+										else
+											button.submit-button.btn.btn-primary 发布评论
+						else
+							.comment-disabled-wrap 一个问题你只能回答一次，但你可以对
+								a(href="#comment#{info.commentId}") 现有的回答 
+								| 进行修改
+						.comment-list
+							.comment-title
+								h3 
+									span.comment-count #{detail.comments.length}
+									| 条评论
+							each comment in detail.comments
+								.media.item-comment
+									.media-left
+										a(href='/people/#{comment.from._id}',data-toggle="popover", name="comment#{comment._id}").item-link-avatar
+											img.item-img-avatar.media-object(src="/images/avatar.jpg", alt="logo", width="40", height="40")
+									.media-body
+										h4.media-heading.comment-author-wrap 
+											a(href="/people/#{comment.from._id}") #{comment.from.nickname}
+											strong  ，个人签名
+										.comment-content !{comment.content}
+										.comment-foot.comment-item-meta
+											.meta-panel
+												span.meta-time 发布于#{moment.tz(comment.meta.createTime, zone).format('YYYY-MM-DD')}
+												a.meta-item.toggle-comment(href="javascript:;", role="button", data-commentid="#{comment._id}", data-toid="#{comment.from._id}", data-num="#{comment.reply.length}")
+													span.glyphicon.glyphicon-comment
+														if comment.reply.length <=0
+															| 添加评论
+														else
+															strong #{comment.reply.length}条评论
+			.col-md-3
+				.sidebar
+					//- .panel.panel-success.panel_course_resource
+					//- 	.panel-heading
+					//- 		h3.panel-title 资料下载
+					//- 	.panel-body
+					.panel.panel-success.panel_course_relation
+						.panel-heading
+							h3.panel-title 相关课程
+						.panel-body
+							.course_info
+								#course_author= info.author
+								.course_title= info.title
+	if(!info.hasComment)
+		script(type="text/javascript", charset="UTF-8", src="/static/ueditor/ueditor.user.config.js")
+		script(type="text/javascript", charset="UTF-8", src="/static/ueditor/ueditor.all.min.js")

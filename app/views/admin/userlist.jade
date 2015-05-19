@@ -1,13 +1,14 @@
 extends ../layout.jade
-
+block head
+	script(src="/static/libs/underscore-min.js")
 block content
 	.row-fluid
 		.page-header
 			h1 用户列表
 		table.table.table-striped.table-bordered.table-hover.table-condensed
-			- var length = users.length;
-			- var pageSize = 5;
-			- var pageNum = Math.ceil(length/pageSize);
+			- var totle = count
+			- var pageSize = 20;
+			- var pageNum = Math.ceil(totle/pageSize);
 			thead
 				tr
 					th 序号
@@ -15,38 +16,77 @@ block content
 					th 邮箱
 					th 注册时间
 					th 状态
-					th 
 			tbody
-				each user, index in users
-					tr
-						td= index+1
-						td= user.nickname
-						td= user.email
-						td= moment(user.createtime).format('MM/DD/YYYY')
-						if(user.role==0)
-							td
-								span.label.label-danger 未激活
-						else
-							td
-								span.label.label-success 激活
-						td
-							.btn-group
-								a.btn.btn-mini.dropdown-toggle(data-toggle='dropdown', href='#') 操作
-									span.caret
-								ul.dropdown-menu.pull-right
-									li
-										a
-											span.glyphicon.glyphicon-pencil
-											| 编辑
 		nav
 			ul.pagination
-				if(pageNum>1)
+				li#previous
+					a(href='javascript:;', aria-lable='Previous')
+						span(aria-hidden='true') &laquo;
+				- for (var i=0; i < pageNum; i ++)
 					li
-						a(href='#', aria-lable='Previous')
-							span(aria-hidden='true') &laquo;
-					-for(var i=0; i<pageNum;i++)
-						li
-							a(href='#')= i+1
-					li
-						a(href='#', aria-label='Next')
-							span(aria-hidden='true') &raquo;
+						a(href="javascript:;")= i+1
+				li#next
+					a(href='javascript:;', aria-label='Next')
+						span(aria-hidden='true') &raquo;
+		script.
+			$(function(){
+				var pageSize = 20
+				var $previous = $('#previous')
+				var $next = $('#next');
+				(function init(){
+					$('.pagination li').eq(1).addClass('active')
+					getUserList(1)
+				})();
+				function getUserList(page){
+					$.ajax({
+							url: '/admin/userpagination?page='+page,
+							type: 'GET',
+							dataType: 'json'
+						})
+						.done(function(data){
+							
+							pagination();
+							$('table tbody').empty();
+							var template = _.template("<tr><td><%= index %></td><td><%= data.nickname %>\
+								</td><td><%= data.email %></td><td><%= data.createTime.substring(0,10) %>\
+								</td><td><%= data.role %></td></tr>");
+							data.forEach(function(user, index){
+								$('table tbody').append(template({index: (page-1)*pageSize+index+1,data: user}));	
+							})
+						})
+				}
+				$('.pagination li a').click(function(e){
+					var $parentNode = $(this).parent();
+					var isDisabled = $parentNode.hasClass('disabled')
+					if(!isDisabled){
+						var isActive = $(this).parent().hasClass('active')
+						var $current = $(this).parent()
+						$('.pagination li').removeClass('active')
+						$current.addClass('active');
+						if(!isActive){
+							var page = $(this).html();
+							getUserList(page);
+						}
+					}				
+				});
+				function pagination() {
+					var maxPage = $('.pagination li').length -2
+					var currentPage =$('.pagination li.active a').html()
+					if(maxPage == 1){
+						$('.pagination li').eq(0).addClass('disabled')
+						$('.pagination li').eq(-1).addClass('disabled')
+						return;
+					}
+					if(currentPage == 1 ){
+						$('.pagination li').eq(0).addClass('disabled')
+						$('.pagination li').eq(-1).removeClass('disabled')
+					}else if(currentPage == maxPage) {
+						$('.pagination li').eq(-1).addClass('disabled')
+						$('.pagination li').eq(0).removeClass('disabled')
+					}else{
+						$('.pagination li').eq(0).removeClass('disabled')
+						$('.pagination li').eq(-1).removeClass('disabled')
+					}
+				}
+				
+			})

@@ -1,0 +1,153 @@
+extends ../settings.jade
+
+block settings
+	- var date = (new Date()).getFullYear();
+	.panel.panel-default
+		.panel-heading
+			h3.panel-title 个人资料
+		.panel-body
+			form#profile.form
+				.errors-container
+				.form-group
+					label(for="nickname") 昵称
+					input.form-control#nickname(type="text")
+				.form-group
+					label 性别
+					label.radio-inline
+						input(type="radio", name="sex", value="0")
+						| 男
+					label.radio-inline
+						input(type="radio", name="sex", value="1")
+						| 女
+				.form-group
+					label(for="") 年级
+					.form-inline
+						select.form-control#enrolTime
+							option(value="0" select) 请选择入学年份
+							- for (var x = 0; x < 4; x ++)
+								option(value=(date-x))= date-x
+						select#cate.form-control
+							option(value="0" select) 请选择专业
+						select#subCate.form-control(style="display:none;")
+				.form-group
+					label 个性签名
+					textarea#signature.form-control(rows="3", placeholder="什么都没有留下!")
+				.form-group
+					button#profile-submit.btn.btn-success.btn-block(type="button") 提交
+
+	script.
+				// case 'profile':
+		// 	$('#nickname').keyup(function(event) {
+		// 		event.preventDefault();
+		// 		$("#nickname").addClass('loading');
+		// 		$.post('/checkname', {
+		// 			nickname: $('#nickname').val()
+		// 		}, function(data, textStatus, xhr) {
+		// 			console.log(data);
+		// 			if (data.success == 1)
+		// 				$("#nickname").removeClass('loading');
+		// 			else if (data.success == 0) {
+		// 				$('#nickname').removeClass('loading');
+		// 				$('#nickname').parent().append('<div class="error" id="nickError">该用户名已被使用!</div>');
+		// 			}
+
+		// 		});
+		// 	});
+		// 	$('#nickname').keydown(function(event) {
+		// 		$('#nickname').removeClass('loading');
+		// 		$('#nickError').remove();
+		// 	});
+		// 	$("a[data-toggle='tooltip']").tooltip({
+		// 		trigger: 'hover',
+		// 		template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>' +
+		// 			'<div class="tooltip-inner"></div></div>',
+		// 		placement: 'bottom'
+		// 	});
+		// 	$.ajax({
+		// 			url: '/categorylist',
+		// 			type: 'GET',
+		// 			dataType: 'json'
+		// 		})
+		// 		.done(function(data) {
+		// 			var sub = []
+		// 			for (var i = 0; i < data.length; i++) {
+		// 				$('select#cate').append(new Option(data[i].name, data[i]._id));
+		// 				sub[data[i]._id] = data[i].subCategories
+		// 			}
+		// 			$('select#cate').change(function() {
+		// 				$('select#subCate').trigger('mychange', [sub]);
+		// 			});
+		// 		})
+		// 		.fail(function() {
+		// 			$(".errors-container").html('<div class="alert alert-danger">\
+		// 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+		// 								<span aria-hidden="true">&times;</span>\
+		// 							</button>\
+		// 							专业信息获取失败,请刷新重试!\
+		// 						</div>');
+		// 			$(".errors-container .alert").slideUp('fast');
+		// 			$(".errors-container .alert").hide().slideDown();
+		// 		})
+		// 	$('#profile-submit').on('click', function(event) {
+		// 		event.preventDefault();
+		// 		var $this = $(this),
+		// 			$form;
+		// 		if ($this.text() == '正在保存...') {
+		// 			return;
+		// 		}
+		// 		$this.text("正在保存...");
+
+		// 		$form = $this.closest("form");
+		// 		var postData = {};
+		// 		var nickname = $('#profile input#nickname').val()
+		// 		if (nickname != '') {
+		// 			postData.nickname = $('#profile input#nickname').val();
+		// 		}else{
+		// 			return;
+		// 		}
+		// 		postData.signature = $('#signature').val();
+		// 			// postData.sex = $("#profile input[name='sex']:checked").val()
+		// 			// postData.enroltime = $('#enrolTime').val()
+		// 		$.ajax({
+		// 				url: '/user/setprofile',
+		// 				type: 'PUT',
+		// 				data: postData,
+		// 				dataType: 'json',
+		// 				timeout: 5000,
+		// 				data: postData
+		// 			})
+		// 			.done(function(data) {
+		// 				if (data.success === 1) {
+		// 					msgbox.info('资料修改成功！')
+		// 				} else {
+		// 					msgbox.error('资料修改失败！')
+		// 				}
+		// 				$this.text("保存")
+		// 			})
+		// 			.fail(function() {
+		// 				console.log("error");
+		// 				$this.text("保存")
+		// 			})
+		// 			.always(function() {
+		// 				console.log("complete");
+		// 			});
+		// 	});
+		// 	break;
+		// 	
+		// 	
+		// 	
+		// 	
+		// 		// $('select#subCate').on('mychange', function(event, sub) {
+		// 	var cateId = $('select#cate option:selected').val()
+
+		// 	if ($('select#cate option:selected').val() == 0) {
+		// 		$('select#subCate').css('display', 'none');
+		// 		$('select#subCate').empty().append(new Option('请选择专业', 0))
+		// 	} else {
+		// 		$('select#subCate').css('display', 'inline-block')
+		// 		$('select#subCate').empty().append(new Option('请选择专业', 0))
+		// 		for (var i = 0; i < sub[cateId].length; i++) {
+		// 			$('select#subCate').append(new Option(sub[cateId][i].name, sub[cateId][i]._id))
+		// 		}
+		// 	}
+		// });

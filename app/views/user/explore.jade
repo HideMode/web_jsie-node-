@@ -1,23 +1,31 @@
 extends ../userlayout.jade
 
+block script
+	script(data-main="/js/search/boot", type="text/javascript", src="/static/libs/require.js")
+
 block content
 	.container
 		.row.content
 			.col-md-push-1.col-md-8
+				- var words = keywords || ""
 				.subheader
 					h1 搜索
-				form#subsearch(action="/search", aucomplete="off")
+				form#subsearch(aucomplete="off")
 					.row
 						.form-group.col-md-8
-							input.form-control(type="text", autocomplete="off")
-						button.btn.btn-primary(type="submit") 搜索
+							input.form-control(type="text", autocomplete="off", name="words", value=words)
+						button#search-btn.btn.btn-primary(type="submit") 搜索
 				.search-tabs
-					ul.nav.nav-tabs
+					ul.nav.nav-tabs(role="tablist")
 						li.active(role="presentation")
-							a(href="/search/ajax") 课程
+							a(href='#course_list', data-url="/search/course", aria-controls="course_list", role="tab", data-toggle="tab") 课程
 						li(role="presentation")
-							a(href="/search/ajax") 问答
-						li(role="presentation")
-							a(href="/search/ajax") 话题
-				.range-selector
-						
+							a(href='#discuss_list', data-url="/search/discuss", aria-controls="discuss_list", role="tab", data-toggle="tab") 问答
+				//- .range-selector
+				.serach-list.tab-content
+					.tab-pane.active#course_list(role="tabpanel")
+						.search-course
+
+					.tab-pane#discuss_list(role="tabpanel")
+						.serach-discuss
+							| 非常抱歉，该功能还未开放。

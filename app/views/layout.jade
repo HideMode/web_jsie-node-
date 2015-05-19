@@ -23,8 +23,8 @@ html
 								| 分类
 							li
 								a(href="/admin/category") 课程分类
-							li
-								a(href="#") 话题分类
+							//- li
+							//- 	a(href="#") 话题分类
 							li.nav-header
 								span.glyphicon.glyphicon-film
 								| 课程管理
@@ -32,26 +32,22 @@ html
 								a(href="/admin/courselist") 查看
 							li
 								a(href="/admin/newcourse") 添加
-							li
-								a(href="/admin/courseedit") 编辑
 							li.nav-header
 								span.glyphicon.glyphicon-stats
 								| 数据统计
 							li
-								a 用户
-							li
-								a 角色
+								a(href="/admin/feedback") 用户反馈	
 							li.nav-header
 								span.glyphicon.glyphicon-user
 								| 个人信息
 							li
-								a 个人资料
-							li
-								a 注销		
+								a(href='/admin/logout') 注销		
 				.col-md-9
 					block content
+
+		block editor
+		a#elevator.go-to-top(href="#", style:="display: none;")
+			img(src="/images/up.png")
 		include ./includes/footer.jade
-		script(src="/libs/bower_components/bootstrap/dist/js/bootstrap.min.js", type="text/javascript")
-		//script(src="/libs/bower_components/jquery-validation/dist/jquery.validate.min.js")
-		//- script(src="/js/common.js")
-		script(src='/js/admin.js')
+		script(src="/static/libs/bootstrap.min.js", type="text/javascript")
+		script(src="/js/admin.js")

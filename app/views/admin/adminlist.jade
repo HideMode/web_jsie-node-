@@ -48,4 +48,4 @@ block content
 						td= admin.username
 						td= admin.email
 						td= admin.role
-						td= moment(admin.meta.createtime).format('MM/DD/YYYY')
+						td= moment.tz(admin.meta.createtime, zone).format('MM/DD/YYYY')

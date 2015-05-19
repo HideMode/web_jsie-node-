@@ -1,0 +1,13 @@
+extends ../settings.jade
+
+block settings
+	.panel.panel-default
+		.panel-heading
+			h3.panel-title 意见反馈
+		.panel-body
+			.feedback-wrap
+				form(id="#feedback")
+					textarea#feedback_info(name="feedback_info", cols="30", rows="10", placeholder="请输入您的意见！")
+					.form-group
+						input.form-control(type="text", placeholder="请输入您的联系方式！", name="contact")
+					button.btn.btn-primary#feedback_submit(type="submit", style="width:50%") 提交

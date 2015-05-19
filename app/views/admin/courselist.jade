@@ -3,13 +3,13 @@ extends ../layout.jade
 block content
 	.page-header
 		h1 课程列表
+	.errors-container
 	table.table.table-striped.table-bordered.table-hover.table-condensed
 		thead
 			tr
 				th 序号
 				th 课程名称
 				th 作者
-				th 分类
 				th 录入时间
 				th
 		tbody
@@ -18,8 +18,7 @@ block content
 					td= index + 1
 					td= course.title
 					td= course.author
-					td= course.category
-					td= moment(course.meta.uploadTime).format('MM/DD/YYYY')
+					td= moment.tz(course.meta.uploadTime, zone).format('YYYY-MM-DD')
 					td
 						.btn-group
 								a.btn.btn-sm.dropdown-toggle(data-toggle='dropdown', href='#') 操作
@@ -35,15 +34,17 @@ block content
 											| 预览
 									if role >=12
 										li
-											a(href="javascript:;")
+											a.delCoure(href="#", data-courseid='#{course._id}')
 												span.glyphicon.glyphicon-remove
 												| 删除
 	a.btn.btn-success(href="/admin/newcourse") 添加课程
-	nav
-		ul.pagination
-			li
-				a(href='#', aria-lable='Previous')
-					span(aria-hidden='true') &laquo;
-			li
-				a(href='#', aria-label='Next')
-					span(aria-hidden='true') &raquo;
+	//- nav
+	//- 	ul.pagination
+	//- 		li
+	//- 			a(href='#', aria-lable='Previous')
+	//- 				span(aria-hidden='true') &laquo;
+	//- 		li
+	//- 			a(href='#', aria-label='Next')
+	//- 				span(aria-hidden='true') &raquo;
+	if role>=12
+		script(src="/js/authoperate.js")

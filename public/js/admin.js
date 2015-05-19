@@ -10,5 +10,16 @@ jQuery(document).ready(function() {
 	var pathname = window.location.pathname;
 	$("a[href^='/admin']").parent().removeClass('active');
 	$("a[href = '" + pathname + "']").parent().addClass('active');
-	
+
+	//Elevator
+	$(document).on("scroll", function() {
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		if (scrollTop > 0) {
+			$("#elevator").fadeIn();
+		} else {
+			$("#elevator").fadeOut();
+		}
+
+	});
+
 });

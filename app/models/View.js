@@ -3,9 +3,8 @@ module.exports = function(mongoose) {
 	var ViewSchema = new mongoose.Schema({
 		title: String,
 		content: String,
-		video: {
-			type: String,
-			default: ""
+		course: {
+			type: ObjectId
 		},
 		comments: [{
 			type: ObjectId,

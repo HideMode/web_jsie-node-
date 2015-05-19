@@ -19,18 +19,10 @@ module.exports = function(mongoose) {
 				index: false
 			},
 			title: String,
-			subs: [{
-				title: String,
-				content: String,
-				video: {
+			view: [{
 					type: ObjectId,
-					ref: 'Video'
-				},
-				comments: [{
-					type: ObjectId,
-					ref: 'Comment'
+					ref: 'View'
 				}]
-			}]
 		}],
 		meta: {
 			uploadTime: {
@@ -48,15 +40,10 @@ module.exports = function(mongoose) {
 			this.meta.uploadTime = this.meta.updateTime = Date.now();
 		} else {
 			this.meta.updateTime = Date.now();
-			if(this.details){
-				this.details.forEach(function(detail){
-					console.log(detail.chapter);
-				})
-			}
+			console.log("pre save func");
 		}
 		next();
 	});
-	// 静态方法
 	CourseSchema.statics = {
 		fetch: function(callback) { //检索所以数据
 			return this
@@ -64,16 +51,16 @@ module.exports = function(mongoose) {
 				.sort('meta.updateTime')
 				.exec(callback);
 		},
-		findById: function(CourseId, callback) { //检索一条数据
+		findById: function(courseId, callback) { //检索一条数据
 			return this
 				.findOne({
-					_id: CourseId
+					_id: courseId
 				})
 				.exec(callback);
 		},
-		remove: function(CourseId, callback) {
+		remove: function(courseId, callback) {
 			return this.remove({
-				_id: CourseId
+				_id: courseId
 			}).exec(callback);
 		}
 	}

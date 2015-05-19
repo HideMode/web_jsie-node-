@@ -3,9 +3,9 @@ module.exports = function(mongoose) {
 	var ObjectId = Schema.Types.ObjectId;
 
 	var CommentSchema = new mongoose.Schema({
-		course: {
+		view: {
 			type: ObjectId,
-			ref: 'Course'
+			ref: 'View'
 		},
 		from: {
 			type: ObjectId,
@@ -20,27 +20,38 @@ module.exports = function(mongoose) {
 				type: ObjectId,
 				ref: 'Account'
 			},
-			content: String
+			content: String,
+			createTime: {
+				type: Date,
+				default: Date.now()
+			}
 		}],
 		content: String,
 		meta: {
-			createAt: {
-				type: Date(),
+			createTime: {
+				type: Date,
 				default: Date.now()
 			},
-			updateAt: {
-				type: Date(),
+			updateTime: {
+				type: Date,
 				default: Date.now()
+			},
+			votes: {
+				type: Number,
+				default: 0
 			}
 		}
 	});
 	CommentSchema.pre('save', function(next) {
 		if (this.isNew) {
-			this.meta.createAt = this.meta.updateAt = Date.now()
+			this.meta.createTime = this.meta.updateTime = Date.now()
 		} else {
-			this.meta.updateAt = Date.now()
+			this.meta.updateTime = Date.now()
 		}
-
+		if (this.reply.isNew) {
+			console.log("reply save date");
+			this.reply.createTime = Date.now()
+		}
 		next()
 	});
 

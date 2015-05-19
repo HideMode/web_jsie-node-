@@ -1,17 +1,27 @@
-//jQuery(document).ready(function() {
 $(function() {
-	var data = null
-	var cate = $.post('/getCate');
-	cate.done(function(data) {
-		var sub = []
-		for (var i = 0; i < data.length; i++) {
-			$('select#cate').append(new Option(data[i].name, data[i]._id));
-			sub[data[i]._id] = data[i].subCategories
-		}
-		$('select#cate').change(function() {
-			$('select#subCate').trigger('mychange', [sub]);
+	var data = null;
+	$.ajax({
+			url: '/categorylist',
+			type: 'GET',
+			dataType: 'json'
+		})
+		.done(function(data) {
+			var sub = []
+			for (var i = 0; i < data.length; i++) {
+				$('select#cate').append(new Option(data[i].name, data[i]._id));
+				sub[data[i]._id] = data[i].subCategories
+			}
+			$('select#cate').change(function() {
+				$('select#subCate').trigger('mychange', [sub]);
+			});
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
 		});
-	});
+
 	$('select#subCate').on('mychange', function(event, sub) {
 		var cateId = $('select#cate option:selected').val()
 
@@ -30,9 +40,12 @@ $(function() {
 	$('#posterBtn').click(function(event) {
 		var courseTitle = $('#title').val(),
 			courseAuthor = $('#author').val(),
-			courseSummary = $('#summary').val();
+			courseSummary = $('#summary').val()
+			cateId = $('#cate').val(),
+			subCateId = $('#subCate').val();
 		event.preventDefault();
-		if ("" === courseTitle || "" === courseAuthor || "" === courseSummary) {
+		if ("" === courseTitle || "" === courseAuthor || "" === courseSummary || "" === cateId ||
+			"" === subCateId) {
 			alert("课程信息不能为空!");
 			$('#poster').css('display', 'none');
 		} else {
@@ -42,12 +55,6 @@ $(function() {
 				url: '/admin/newcourse',
 				max_file_count: 20,
 				chunk_size: '1mb',
-				resize: {
-					width: 200,
-					height: 200,
-					quality: 90,
-					crop: false // crop to exact dimensions
-				},
 				filters: {
 					// Maximum file size
 					max_file_size: '1000mb',
@@ -109,5 +116,3 @@ $(function() {
 		}
 	});
 });
-
-//});

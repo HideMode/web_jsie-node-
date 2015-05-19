@@ -1,28 +1,26 @@
 extends ../userlayout.jade
 	
 block script
-	//script(data-main="js/course/boot", type="text/javascript", src="/libs/require.js")
+	script(data-main="/js/course/list/boot", type="text/javascript", src="/static/libs/require.js")
 block content
 	.container
 		.row
 			.col-md-2
-				nav.menu
+				nav.menu.course-sidebar
 					h3.menu-heading 课程
-					a.selected.menu-item(href='#') 全部
-					a.menu-item(href='#') 计算机
-					a.menu-item(href='#') 数学
-					a.menu-item(href='#') 生物
-					a.menu-item(href='#') 艺术
+					.menu-item.selected
+						a(href='#') 全部
+					each category in categories
+						.menu-item
+							a(data-cateid="#{category._id}")= category.name
+							if category.subCategories.length>0
+								.course-subcategory
+									.course-subcategory-bg
+									ul
+										each sub in category.subCategories
+											li
+												a(data-subid="#{sub.id}")= sub.name
 			.col-md-9
-				ol.breadcrumb
-					li: a(href="#") Home
-					li: a(href="#") Second
-				.row
-					each course in courses
-						.col-md-4
-							a.thumbnail(href="/course/#{course.id}")
-								img(style="width: 100%; height: 160px; display: block;",src="#{course.poster}", alt="",data-src="holder.js/100%x160", data-holder-rendered="true")
-								.caption
-									h5= course.title
-			
-		
+				ol.breadcrumb.course-tools
+					li: a(href="#") 全部
+				.row.course-list

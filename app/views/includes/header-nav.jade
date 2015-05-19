@@ -4,16 +4,16 @@ nav.navbar.navbar-default(role='navigation')
 			.navbar-header
 				a.navbar-brand(href='/')
 					img(alt='Brand', src='/images/logo.jpg', width="20", height="20")
-				p.navbar-text jsie.com
+				p.navbar-text 翻转课堂教学平台
 			.collapse.navbar-collapse
 				ul.nav.navbar-nav
 					li
 						a(href='/course') 课程
 					li
-						a(href='/discuss') 问答
+						a#discuss(href='javascript:;', data-container="body", data-placement="bottom" data-content="暂未开放！") 问答
 					if isLogined
 						li
-							a(href='/account') 我的课程
+							a(href='/account') 我的主页
 				ul#user.nav.navbar-nav.navbar-right
 					if !isLogined
 						li
@@ -21,14 +21,13 @@ nav.navbar.navbar-default(role='navigation')
 						li
 							a(href='javascript:void(0)', data-toggle='modal' data-target='#modal' id='nav_register') 注册
 					else
-						li
-							a#msg-show(href='/message', data-toggle='tooltip',data-placement="bottom" title='我的消息')
-								span.glyphicon.glyphicon-comment(aria-hidden='true')
-								span.badge(style="padding:2px;position: relative; top: -12px;background-color:red;") 14
-								//span#msgNum 2
+						//- li
+						//- 	a#msg-show(href='/message', data-toggle='tooltip',data-placement="bottom" title='我的消息')
+						//- 		span.glyphicon.glyphicon-comment(aria-hidden='true')
+						//- 		span.badge(style="padding:2px;position: relative; top: -12px;background-color:red;") 10
 						li.dropdown
 							a.dropdown-togglen(href='#', data-toggle='dropdown', role='menu', aria-expanded='false')
-								img(src='/images/logo.jpg', width='20', height='20')
+								img(src='/uploads/image/avatar/#{avatar}', width='20', height='20')
 								span= nickname
 									span.glyphicon.glyphicon-chevron-down(style="font-size:10px; padding-left:2px;color: #717272;")
 							ul.dropdown-menu.dropdown-menu-right(role='menu')
@@ -38,7 +37,7 @@ nav.navbar.navbar-default(role='navigation')
 										span(style='padding-left:10px;') 我的主页
 								li.divider(role='presentation')
 								li(role='presentation')
-									a(href='/settings')
+									a(href='/settings/avatar')
 										span.glyphicon.glyphicon-cog(aria-hidden='true')
 										span(style='padding-left:10px;') 设置
 								li.divider(role='presentation')
@@ -46,9 +45,8 @@ nav.navbar.navbar-default(role='navigation')
 									a(href='/logout', role='presentation')
 										span.glyphicon.glyphicon-off(aria-hidden='true')
 										span(style='padding-left:10px;') 退出
-				form.navbar-form.navbar-right(role='search')
-					.input-group
-						input.form-control(type='text', placeholder='搜索课程、问答')
-						span.input-group-btn
-							a.btn.btn-default(role='button')
-								span.glyphicon.glyphicon-search(aria-hidden='true') 
+				form.navbar-form.navbar-right.search-form(role='search', method="GET", action="/search", autocomplete="off")
+					input.search-input(type='text', name='words',placeholder='搜索课程、问答')
+					button.search-button(type='submit')
+						span.glyphicon.glyphicon-search(aria-hidden='true')
+					

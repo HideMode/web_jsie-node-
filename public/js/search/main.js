@@ -1,17 +1,14 @@
 define(['jquery', 'underscore'], function() {
 	var isAjax = false;
 	var nextPage = 0;
-	// var loadNextPage = function() {
-	// 	var h = $(document).height()
-	// 	var wh = $(window).height()
-	// 	if (t >= h - wh - 30) {
-	// 		if (nextPage > 0) {
-	// 			getSearchData(nextPage);
-	// 		}
-	// 	}
-	// }
-	// <a class="zg-btn-white zu-button-more" aria-role="button">更多</a>
-	var getSearchData = function(page) {
+	var courseTpl = _.template('<li class="course"><h2 class="title">\
+		<a target="_blank" href="/course/<%= course._id %>"><%= course.title %></a></h2>\
+		<div class="tip"><span>讲师:<%= course.author %></span></div>\
+		<div class="content clearfix"><div class="thumbnail">\
+		<a target="_blank" href="/course/<%= course._id %>">\
+		<img src="<%= course.poster%>"></a></div>\
+		<div class="introduction">课程简介:<%= course.summary %></div></div></li>')
+	var getSearchData = function(type, page) {
 		if (isAjax) return;
 		var words = $('#subsearch input[name=words]').val();
 		var data = {
@@ -20,14 +17,13 @@ define(['jquery', 'underscore'], function() {
 			words: words
 		};
 		var url = "";
-		url = $(".search-tabs li.active a").data('href');
+		url = $(".search-tabs li.active a").data('url');
 		if (!page || page < 1) {
 			page = 1
 		}
 		if (page) {
 			data.page = page
 		}
-		console.log(data);
 		$.ajax({
 			url: url,
 			type: 'GET',
@@ -36,11 +32,22 @@ define(['jquery', 'underscore'], function() {
 			timeout: 5000,
 			success: function(resp) {
 				isAjax = false;
-				var data = resp.course;
-
-				if (resp.nextPage) {
-					// 更多
-					nextPage = page * 1 + 1;
+				if (resp.success == 1) {
+					if (resp && resp.courses.length > 0) {
+						var listHTML = ""
+						console.log(resp);
+						_.each(resp.courses, function(course) {
+							console.log(course);
+							listHTML += courseTpl({
+								course: course
+							})
+						});
+						$('.search-course').empty().append('<ul>' + listHTML + '</ul>')
+					}else{
+						$('.search-course').empty().append('<div class="empty-result"><p>非常抱歉，没有找到相关的内容。</p></div>')
+					}
+				} else {
+					$('.search-course').empty().append('<div class="empty-result"><p>非常抱歉，没有找到相关的内容。</p></div>')
 				}
 			},
 			error: function() {
@@ -65,7 +72,10 @@ define(['jquery', 'underscore'], function() {
 
 	var bindEvent = function() {
 		$('.search-tabs a').on('click', bindEventHandler.searchTypeClick)
-
+		$('#search-btn').on('click', function(event) {
+			event.preventDefault();
+			getSearchData();
+		});
 
 		// init
 		getSearchData();

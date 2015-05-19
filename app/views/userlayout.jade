@@ -5,11 +5,11 @@ html
 		meta(name="viewport",content="width=device-width,initial-scale=1")
 		title= title
 		link(href="/images/logo.jpg", type="image/jpeg", rel="icon", sizes="16x16")
-		link(href="/libs/bower_components/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+		link(href="/static/libs/css/bootstrap.min.css", rel="stylesheet")
 		link(href="/styles/common.css", rel="stylesheet", type="text/css")
 		link(href="/styles/animate.css", rel="stylesheet")
 		block script
-		script(src="/libs/bower_components/jquery/dist/jquery.min.js")
+		script(src="/static/libs/jquery.min.js")
 	body
 		.page-loading-overlay
 			.loader
@@ -17,5 +17,7 @@ html
 		block content
 		div#modal.modal.fade
 			include ./includes/modal.jade
-		script(src="/libs/bower_components/bootstrap/dist/js/bootstrap.min.js")
+		a#elevator.go-to-top(href="#", style:="display: none;")
+			img(src="/images/up.png")
+		script(src="/static/libs/bootstrap.min.js")
 		script(src="/js/support.js", type="text/javascript")

@@ -1,7 +1,11 @@
-define(['jQuery', 'Underscore'], function() {
+define(['moment-timezone', 'jQuery', 'Underscore'], function(moment) {
 	var isAjax = 0;
 	var nextPage = 0;
-
+	var zone = "Asia/Shanghai"; //moment-zone
+	var isNew = function(updatetime) {
+		var now = Date.parse(new Date())
+		return Math.floor((now - updatetime) / 3600/1000/24) <= 2 ? 1 : 0; // 三天内更新
+	}
 	var setFixed = function() {
 		var t = $(document).scrollTop();
 		if (t > 80) {
@@ -91,7 +95,7 @@ define(['jQuery', 'Underscore'], function() {
 		$(".course-tools").html(title)
 		isAjax = 1;
 		$.ajax({
-			url: "/course/ajaxlist",
+			url: "/ajax/course/ajaxlist",
 			data: data,
 			method: "post",
 			dataType: "json",
@@ -101,12 +105,28 @@ define(['jQuery', 'Underscore'], function() {
 				var courses = resp.courses
 				var listHtml = ""
 				if (courses.length > 0) {
-					var listTpl = _.template('<div class="col-md-4"><a class="thumbnail" href="/course/<%= course._id %>">\
+					var listTpl = _.template('<div class="col-md-4"><a class="thumbnail course-list-item" href="/course/<%= course._id %>" target="_blank">\
 						<img src="<%= course.poster %>" data-src="holder.js/100%x160" data-holder-rendered="true">\
-						<div class="caption"><h5><%= course.title %></h5></div></a></div>');
+						<div class="caption"><h5><%= course.title %></h5>\
+						<div class="info"><%= timeHTML %>\
+						<span class="r">学习人数</span></div></div></a></div>');
+					var timeTpl = _.template('<span class="l "><%= updatetime %>更新</span>')
+					var timeTpl_new = _.template('<span class="l new "><%= updatetime %>更新</span>')
 					_.each(courses, function(course) {
+						var updatetime = moment.tz(course.meta.updateTime, zone).format("YYYY-MM-DD");
+						var update = moment.tz(course.meta.updateTime, zone).format('x');
+						if (isNew(update)) {
+							var timeHTML = timeTpl_new({
+								updatetime: updatetime
+							})
+						} else {
+							var timeHTML = timeTpl({
+								updatetime: updatetime
+							})
+						}
 						listHtml += listTpl({
-							course: course
+							course: course,
+							timeHTML: timeHTML
 						})
 					});
 				} else {

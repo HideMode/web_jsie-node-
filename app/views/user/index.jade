@@ -1,7 +1,8 @@
 extends ../userlayout.jade
 
-block script
-	script(data-main="js/index/boot", type="text/javascript", src="/libs/require.js")
 
 block content
-	div#content
+	.container
+		.jumbotron
+			.index_img
+				a.btn.btn-primary.btn-lg(href="/course", role="button") 了解更多

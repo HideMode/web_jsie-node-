@@ -1,0 +1,60 @@
+extends ../layout.jade
+
+block content
+	.row-fluid
+		.page-header
+			h1 用户反馈
+		table.table.table-striped.table-bordered.table-hover.table-condensed
+			thead
+				tr
+					th 序号
+					th 用户名
+					th 发送时间
+					th 反馈内容
+					th 操作
+			tbody
+				each feedback, index in feedbacks
+					tr
+						td= index + 1
+						td= feedback.meta.from.nickname
+						td #{moment.tz(feedback.meta.createTime, zone).format('YYYY-MM-DD HH:mm')}
+						td= feedback.content
+						td
+							.btn-group
+								a.btn.btn-sm.dropdown-toggle(data-toggle='dropdown', href='#') 操作
+									span.caret
+								ul.dropdown-menu.pull-right
+									if role >=12
+										li
+											a.delFeedback(href="javascript:;", data-id="#{feedback._id}")
+												span.glyphicon.glyphicon-remove
+												| 删除
+		.modal.fade#feedback_detail
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type="button", data-dismiss="modal")
+							span(aria-hidden="true")
+						h4.modal-title 详细信息
+					.modal-body
+					.modal-footer
+						button.btn.btn-primary(type="button", data-dismiss="modal") 关闭
+	script.
+		$(function() {
+			$('.delFeedback').click(function(e) {
+				var id = $(this).data('id');
+				var $node = $(this).closest('tr')
+				var del = confirm("是否删除?")
+				if (del) {
+					$.ajax({
+							type: 'DELETE',
+							url: '/admin/feedback?id=' + id
+						})
+						.done(function(results) {
+							if (results.success === 1) {
+								$node.remove();
+							}
+						})
+				}
+			})
+		})

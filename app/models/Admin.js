@@ -50,6 +50,8 @@ module.exports = function(mongoose) {
 			},
 			function(err, result) {
 				if (err) console.log(err);
+				result.meta.lastlogin = Date.now()
+				result.save()
 				callback(result);
 			});
 	};

@@ -1,32 +1,31 @@
 .thumbnail
-	a(href="/settings", data-toggle="tooltip", title="修改头像")
-		img(data-src="holder.js/100%x200", alt="", src="images/logo.jpg", width="220", height="220")
+	a(href="/settings/profile", data-toggle="tooltip", title="修改头像")
+		img(data-src="holder.js/100%x200", alt="", src="/uploads/image/avatar/#{avatar}", width="220", height="220")
 	.caption
 		.thumbnail-name
 			h3= account.nickname
-			p= account.class
 		.thumbnail-regtime
 			span.glyphicon.glyphicon-time
 			span 加入时间
-			time.join-date(datetime="2014-10-24T01:57:10Z", day="numeric", is="local-time",month="short", year="numeric", title="2014年10月24日 GMT+8上午9:57">24 Oct 2014)
-		.thumbnail-signature
-			p#signed.signed= account.signature
-		.thumbnail-stats
-			a
-				strong 0
-				span.text-muted 关注
-			a
-				strong 0
-				span.text-muted 粉丝
-			a
-				strong 0
-				span.text-muted 赞同
+			time.join-date= moment.tz(account.createTime,zone).format("YYYY-MM-DD")
+		//- .thumbnail-signature
+		//- 	p#signed.signed= account.signature
+		//- .thumbnail-stats
+		//- 	a
+		//- 		strong 0
+		//- 		span.text-muted 关注
+		//- 	a
+		//- 		strong 0
+		//- 		span.text-muted 粉丝
+		//- 	a
+		//- 		strong 0
+		//- 		span.text-muted 赞同
 
-//<div class="thumbnail">							
-	//<div class="thumbnail-signature">
-		//<span class="glyphicon glyphicon-book"></span>
-		//<span class="glyphicon glyphicon-question-sign"></span>
-		//<span class="glyphicon glyphicon-question-sign"></span>
-		//<span class="glyphicon glyphicon-question-sign"></span>
-	//</div>
-//</div>
+//- //<div class="thumbnail">							
+//- 	//<div class="thumbnail-signature">
+//- 		//<span class="glyphicon glyphicon-book"></span>
+//- 		//<span class="glyphicon glyphicon-question-sign"></span>
+//- 		//<span class="glyphicon glyphicon-question-sign"></span>
+//- 		//<span class="glyphicon glyphicon-question-sign"></span>
+//- 	//</div>
+//- //</div>

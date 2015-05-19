@@ -7,87 +7,7 @@
  */
 module.exports = function(config, mongoose, nodemailer) {
 	var crypto = require('crypto'); //SHA1算法加密
-
-	var Profile = mongoose.Schema({ //个人详细信息
-		signature: {
-			type: String
-		},
-		class: {
-			type: String
-		},
-		sex: {
-			type: String
-		},
-		urlToken: {
-			type: String,
-			default: 'default.png'
-		},
-		avatar: {
-			type: String
-		}
-	});
-
-	var Discuss = mongoose.Schema({ //讨论模块
-		quiz: { //提问
-			questionName: {
-				type: String
-			},
-			questionLink: {
-				type: Number
-			}
-		},
-		reply: { //回答
-			questionName: {
-				type: String
-			},
-			questionLink: {
-				type: Number
-			}
-		}
-	})
-	var Course = mongoose.Schema({ //参与的课程信息
-			courseId: {
-				type: mongoose.Schema.ObjectId
-			},
-			courseName: {
-				type: String
-			},
-			courseLink: {
-				type: Number
-			}
-		})
-		//联系人列表
-	var Contact = mongoose.Schema({
-
-		friend: {
-			nickname: {
-				type: String
-			},
-			accountId: {
-				type: mongoose.Schema.ObjectId
-			},
-
-		},
-		follower: {
-			nickname: {
-				type: String
-			},
-			accountId: {
-				type: mongoose.Schema.ObjectId
-			}
-		}
-	});
-
-	var Status = mongoose.Schema({ //个人动态
-			questionName: {
-				type: String
-			},
-			questionLink: { //问题编号
-				type: Number
-			},
-			//类型 ? 关注 ?回答
-		})
-		//Create Schema (define the type and struct of model)
+	var ObjectId = mongoose.Schema.Types.ObjectId
 	var AccountSchema = mongoose.Schema({
 		email: {
 			type: String,
@@ -113,15 +33,47 @@ module.exports = function(config, mongoose, nodemailer) {
 			type: Number,
 			default: 0
 		},
-		createtime: { // 创建时间
-			type: Date,
-			default: Date.now()
+		createTime: Date,
+		profile: { //个人详细信息
+			signature: {
+				type: String
+			},
+			enrolTime: {
+				type: String
+			},
+			sex: {
+				type: Number
+			},
+			avatar: {
+				type: String,
+				default: 'avatar.jpg'
+			},
+			class: Number //
 		},
-		profile: [Profile],
-		course: [Course],
-		discuss: [Discuss], // concern fans star
-		contacts: [Contact], //关注列表
-		activity: [Status] //动态
+		course: [{
+			type: ObjectId,
+			ref: 'Course'
+		}],
+		discuss: {
+			quiz: [{
+				type: ObjectId,
+				ref: 'Discuss'
+			}],
+			reply: [{
+				type: ObjectId,
+				ref: 'Discuss'
+			}]
+		},
+		contact: {
+			follow: [{
+				type: ObjectId,
+				ref: 'Account'
+			}],
+			fan: [{
+				type: ObjectId,
+				ref: 'Account'
+			}]
+		} //关注列表
 	});
 	AccountSchema.methods = { //实例方法
 		comparePassword: function(password, callback) {
@@ -134,32 +86,47 @@ module.exports = function(config, mongoose, nodemailer) {
 				_id: 0,
 				email: 1,
 				nickname: 1,
-				createtime: 1,
+				createTime: 1,
 				role: 1
-			}).sort('createtime').exec(callback); //?
+			}).sort('createTime').exec(callback); //?
 		}
 	};
+	AccountSchema.pre('save', function(next) {
+		if (this.isNew) {
+			console.log(this);
+			this.createTime = Date.now()
+		} else { // 推送消息 followers
+			// flash messages
+		}
+		next()
+	});
 	//Create model
 	var Account = mongoose.model('Account', AccountSchema);
 
-	var changePassword = function(accountId, newpassword) {
-		var shaSum = crypto.createHash("sha256");
-		shaSum.update(newpassword);
-		var hashedPassword = shaSum.digest("hex");
-
+	var changePassword = function(accountId, oldpassword, newpassword , cb) {
+		var shaSum1 = crypto.createHash("sha256");
+		var shaSum2 = crypto.createHash("sha256");
+		shaSum1.update(oldpassword);
+		shaSum2.update(newpassword);
+		var oldPassword = shaSum1.digest("hex");
+		var newPassword = shaSum2.digest("hex");
 		Account.update({
-				_id: accountId
+				_id: accountId,
+				password: oldPassword
 			}, {
 				$set: {
-					password: hashedPassword
+					password: newPassword
 				}
 			}, {
 				upsert: false
 			},
-			function changePasswordCallback(err) {
-				if (err)
-					return console.log(err);
-				return console.log('Change password done for account ' + accountId);
+			function(err, account){
+				if(err){
+					console.log(err);
+					return;
+				}else{
+					cb(account)
+				}
 			});
 	};
 
@@ -169,7 +136,7 @@ module.exports = function(config, mongoose, nodemailer) {
 			email: email
 		}, function findAccount(err, result) {
 			if (err) {
-				//username is not  a valid user
+				//username is not a valid user
 				callback(false);
 			} else {
 				var smtpTransport = nodemailer.createTransport(config.mail);
@@ -177,7 +144,7 @@ module.exports = function(config, mongoose, nodemailer) {
 				smtpTransport.sendMail({
 					from: 'web_jsie@example.com',
 					to: result.email,
-					subject: 'SocialNet Password Request',
+					subject: '忘记密码',
 					text: 'Click here to reset your password:' + resetPasswordUrl
 				}, function forgetPasswordCallback(err) {
 					if (err) {
@@ -209,12 +176,12 @@ module.exports = function(config, mongoose, nodemailer) {
 		var account = new Account({ //模型实例
 			email: email,
 			password: shaSum.digest('hex'),
-			nickname: nickname,
-			createtime: Date.now()
+			nickname: nickname
 		});
 		account.save(function(err, result) {
 			if (err) {
 				console.log(err);
+				return;
 			}
 			console.log(nickname + " was registered");
 			callback(result);

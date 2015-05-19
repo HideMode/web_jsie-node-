@@ -5,27 +5,9 @@ nav.navbar.navbar-default(role='navigation')
 		.collapse.navbar-collapse
 			ul.nav.navbar-nav
 				li
-					a(href='#') 主页
-				li.dropdown
-					a.dropdown-togglen(href='#', data-toggle='dropdown', role='menu', aria-expanded='false') 用户
-						span.glyphicon.glyphicon-chevron-down(style="font-size:10px; padding-left:2px;color: #717272;")
-					ul.dropdown-menu.dropdown-menu-left(role='menu')
-						li(role='presentation')
-							a(href='#') 新建用户
-						li.divider(role='presentation')
-						li(role='presentation')
-							a(href='#') 管理用户
-				li.dropdown
-					a.dropdown-togglen(href='#', data-toggle='dropdown', role='menu', aria-expanded='false') 角色
-							span.glyphicon.glyphicon-chevron-down(style="font-size:10px; padding-left:2px;color: #717272;")
-					ul.dropdown-menu.dropdown-menu-left(role='menu')
-						li(role='presentation')
-							a(href='#') 查看
-						li.divider(role='presentation')
-						li(role='presentation')
-							a(href='#') 管理
+					a(href='/admin') 主页
 				li
-					a(href='#') 统计
+					a(href='/admin/feedback') 统计
 			ul#user.nav.navbar-nav.navbar-right
 				li
 					a#msg-show(href='/message', data-toggle='tooltip',data-placement="bottom" title='我的消息')
@@ -38,18 +20,18 @@ nav.navbar.navbar-default(role='navigation')
 						span= nickname
 							span.glyphicon.glyphicon-chevron-down(style="font-size:10px; padding-left:2px;color: #717272;")
 					ul.dropdown-menu.dropdown-menu-right(role='menu')
-						li(role='presentation')
-							a(href='/admin/settings')
-								span.glyphicon.glyphicon-cog(aria-hidden='true')
-								span(style='padding-left:10px;') 设置
-						li.divider(role='presentation')
+						//- li(role='presentation')
+						//- 	a(href='/admin/settings')
+						//- 		span.glyphicon.glyphicon-cog(aria-hidden='true')
+						//- 		span(style='padding-left:10px;') 设置
+						//- li.divider(role='presentation')
 						li
 							a(href='/admin/logout', role='presentation')
 								span.glyphicon.glyphicon-off(aria-hidden='true')
 								span(style='padding-left:10px;') 退出
-			form.navbar-form.navbar-right(role='search')
-				.input-group
-					input.form-control(type='text', placeholder='搜索课程、问答')
-					span.input-group-btn
-						a.btn.btn-default(role='button')
-							span.glyphicon.glyphicon-search(aria-hidden='true') 
+			//- form.navbar-form.navbar-right(role='search')
+			//- 	.input-group
+			//- 		input.form-control(type='text', placeholder='搜索课程')
+			//- 		span.input-group-btn
+			//- 			a.btn.btn-default(role='button')
+			//- 				span.glyphicon.glyphicon-search(aria-hidden='true') 

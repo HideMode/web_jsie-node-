@@ -1,0 +1,12 @@
+.modal.fade#preview-modal
+	.modal-dialog.preview-container
+		.modal-content
+			.modal-header
+				button.close(type="button", data-dismiss="modal", aria-label="Close")
+					span(aria-hidden="true") &times;
+				h4.modal-title 标题
+			.modal-body(style="padding:0")
+				.container.main-content
+					#text-body
+			.modal-footer
+				button.btn.btn-default(type="button", data-dismiss="modal") 关闭

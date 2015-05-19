@@ -1,0 +1,14 @@
+extends ../settings.jade
+
+block settings
+	.panel.panel-default
+		.panel-heading
+			h3.panel-title 头像设置
+		.panel-body
+			.avatar-img
+				img(src="/uploads/image/avatar/#{avatar}")
+				form(id="#avatar", method="POST", action="/user/avatar", enctype="multipart/form-data")
+					a.btn.btn-primary.button-change-avatar(href="javascript:;")
+						label(for="upload-change-avatar")
+							| 上传头像
+							input#upload-change-avatar.manual-file-chooser(type="file", name="avatar", title="上传头像", accept="image/*")

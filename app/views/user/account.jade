@@ -12,37 +12,37 @@ block content
 								p
 									strong 小提示 
 									| 完善个人信息,让更多的朋友发现你。
-									a.btn.btn-success.btn-sm(href="/settings")
+									a.btn.btn-success.btn-sm(href="/settings/profile")
 										span.glyphicon.glyphicon-pencil
 										| 现在编辑
 							ul#userTab.nav.nav-tabs
-								li#statusNav.active(role="presentation")
+								li#courseNav.active(role="presentation")
+									a(href="#course", role="tab", aria-expanded="true",aria-control="status" data-toggle="tab") 我的课程
+								li#statusNav(role="presentation")
 									a(href="#status", role="tab", aria-expanded="true",aria-control="status" data-toggle="tab") 最新动态
-								li#followNav(role="presentation")
-									a(href="#follow", role="tab", aria-expanded="true",aria-control="status" data-toggle="tab") 关注
-								li#followNav(role="presentation")
-									a(href="#course", role="tab", aria-expanded="true",aria-control="status" data-toggle="tab") 课程
 							.tab-content#userTabContent
-								.tab-pane.active#status(role="tabpanel")
-									each status in account.status
-										.profile-item
-											span(style="float:right;")= status.time
-											.activity
-												| status.type
-												a.question_link(href='#')= status.title
-								.tab-pane#follow(role="tabpanel")
-									.profile-item
-										span(style="float:right;") 124
-										.activity
-											| status.type
-											a.question_link(href='#') 345
-								.tab-pane#course(role="tabpanel")
-									each status in account.status
-										.profile-item
-											span(style="float:right;")= status.time
-											.activity
-												| status.type
-												a.question_link(href='#')= status.title
-							//- 动态
+								.tab-pane.active#course(role="tabpanel")
+									if account.course.length>0
+										each course in account.course
+											.profile-item
+												span(style="float:right;")= moment.tz(course.meta.updateTime,zone).format("YYYY-MM-DD")
+													| 更新
+												.activity
+													| #{course.author}
+													a.question_link(href='/course/#{course._id}', target="_blank")= course.title
+									else
+										a.btn.btn-lg.btn-primary(href="/course", style="margin-top:20px;", target="_blank") 发现更多课程
+								.tab-pane#status(role="tabpanel")
+									.alert.alert-warning
+											p.text-center 非常抱歉，暂未开放
 						.col-md-3
-							include ../includes/thumbnail.jade
+							.thumbnail
+								a(href="/settings/avatar", data-toggle="tooltip", title="修改头像")
+									img(data-src="holder.js/100%x200", alt="", src="/uploads/image/avatar/#{avatar}", width="220", height="220")
+								.caption
+									.thumbnail-name
+										h3= account.nickname
+									.thumbnail-regtime
+										span.glyphicon.glyphicon-time
+										span 加入时间
+										time.join-date= moment.tz(account.createTime,zone).format("YYYY-MM-DD")

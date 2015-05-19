@@ -1,11 +1,6 @@
 extends ../userlayout.jade
 block script
 	script(data-main="/js/course/cate/boot", type="text/javascript", src="/static/libs/require.js")
-style.
-	.course_nav .picture {
-	    display: inherit;
-	    float: left;
-	}
 block content
 	.container
 		.course_nav
@@ -26,6 +21,14 @@ block content
 						.col-md-4.dashboard
 							h4= moment.tz(course.meta.updateTime, zone).format("YYYY-MM-DD")
 							p 更新时间
+			.course_btn
+				if isLogined
+					if hasCourse
+						a#quitCourse.btn-lg.btn.btn-danger(role='button') 退出该课程
+					else
+						a#addCourse.btn-lg.btn.btn-primary(role="button") 加入该课程
+				else
+					a.btn-lg.btn.btn-info(role="button", href="javascript:;") 请先登录
 		.content
 			-var chapter = ['第一章','第二章','第三章','第四章','第五章','第六章','第七章']
 			.row
@@ -51,12 +54,12 @@ block content
 										ul.sub(style="display:none;", data-cateid="#{item._id}")
 											each sub, index in item.view
 												li
-													a(href="/view/#{sub._id}")= sub.title
+													a(href="/view/#{sub._id}", target="_blank")= sub.title
 								else
 									.unopen.chapter
 										h3
 											span.glyphicon.glyphicon-list(style="float:left;top:12px; left:5px;")
-											strong= chapter[item.chapter-1]+item.title
+											strong= chapter[item.chapter-1]+' '+item.title
 											em 暂未开放
 				.col-md-3
 					.sidebar

@@ -9,21 +9,15 @@ var express = require("express"),
 	cookie = require('cookie-parser'),
 	session = require('express-session'),
 	MongoStore = require('connect-mongo')(session),
-	ueditor = require('ueditor-nodejs'),
 	path = require('path'),
+	FileStreamRotator = require('file-stream-rotator'),
+	fs = require('fs'),
 	config = {
 		//mail: require('./config/mail')
 		credentials: require('./config/credentials')
 	},
-	Db = require('./models/Db')(mongoose),
-	// models = {
-	// 	Account: require('./models/Account')(config.credentials, mongoose, nodemailer),
-	// 	Course: require('./models/Course')(mongoose),
-	// 	Db: require('./models/Db')(mongoose),
-	// 	Admin: require('./models/Admin')(mongoose),
-	// 	Video: require('./models/Video')(mongoose),
-	// 	Category: require('./models/Category')(mongoose)
-	// },
+	ueditor = require('./config/ueditor/ueditor'),
+	Db = require('./config/Db')(mongoose),
 	port = process.env.PORT || 8080;
 app.set('views', './app/views');
 app.set("view engine", "jade");
@@ -32,6 +26,17 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+
+// log
+var logDirectory = __dirname + '/log'
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+var accessLogStream = FileStreamRotator.getStream({
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+})
+app.use(require('morgan')('combined', {stream: accessLogStream}))
+
 
 /**
  * set session
@@ -51,23 +56,54 @@ app.use(session({
 	})
 }));
 
-app.use('/ueditor/ue', ueditor({ //这里的/ueditor/ue是因为文件件重命名为了ueditor,如果没改名，那么应该是/ueditor版本号/ue
-	configFile: '/ueditor/php/config.json', //如果下载的是jsp的，就填写/ueditor/jsp/config.json
+// 用户富文本编辑器预留接口
+app.use('/static/ueditor/user/ue', ueditor({ // url /static/uediter/ue
+	configFile: '/static/ueditor/nodejs/user.config.json',
 	mode: 'local', //本地存储填写local
 	staticPath: path.join(__dirname, 'public'), //一般固定的写法，静态资源的目录，如果是bcs，可以不填
-	dynamicPath: function(req){
-		console.log(req.query.action);
-		var action = req.query.action;
-		switch(action){
-			case "uploadimage": return '/uploads/image'; break;
-			case "uploadvideo": return '/uplodas/video'; break;
-			case "uploadfile": return '/uplodas/file'; break;
-			default: return '/uploads/temp'
-		}
-	}//'/uploads/temp/' //动态目录，以/开头，bcs填写buckect名字，开头没有/.路径可以根据req动态变化，可以是一个函数，function(req) { return '/xx'} req.query.action是请求的行为，uploadimage表示上传图片，具体查看config.json.
+	dynamicPath: function(req) {
+			var action = req.query.action;
+			switch (action) {
+				case "uploadimage":
+					break;
+				case "uploadvideo":
+					break;
+				case "uploadfile":
+					break;
+				default:
+					return '/uploads/temp'
+			}
+		} 
 }));
-app.locals.moment = require('moment');
-//require("./routes/routes")(app, models);
+app.use('/static/ueditor/ue', ueditor({ // url /static/uediter/ue
+	configFile: '/static/ueditor/nodejs/config.json',
+	mode: 'local', //本地存储填写local
+	staticPath: path.join(__dirname, 'public'), //一般固定的写法，静态资源的目录，如果是bcs，可以不填
+	dynamicPath: function(req) {
+			var action = req.query.action;
+			switch (action) {
+				case "uploadimage":
+					return '/uploads/image/view';
+					break;
+				case "uploadvideo":
+					return '/uploads/video';
+					break;
+				case "uploadfile":
+					return '/uploads/file';
+					break;
+				case "listimage":
+					return '/uploads/image/view';
+					break;
+				case "listfile":
+					return '/uploads/file';
+					break;
+				default:
+					return '/uploads/temp'
+			}
+		} 
+}));
+app.locals.zone = "Asia/Shanghai"
+app.locals.moment = require('moment-timezone')
 require('./config/routes')(app)
 
 app.listen(port);

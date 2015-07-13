@@ -4,47 +4,55 @@ var Category = mongoose.model('Category')
 
 exports.index = function(req, res) {
 	var data = req.query; //words
-	var keywords = [];
-	keywords = data.words.trim().split(" ");
+	var keywords = "";
+	if (data.word)
+		keywords = data.words.trim().split(" ");
 	res.render('user/explore', {
 		title: '搜索结果',
-		keywords: data.words
+		keywords: keywords
 	})
 }
 exports.search = function(req, res) {
 	var type = req.params.type; //course discuss topic
 	var data = req.query;
 	var page = data.page,
-		pageSize = data.pageSize
+		pageSize = data.pageSize;
 	var keywords = [];
+	if (data.words.trim()=='') {
+		res.json({
+			success: 0
+		})
+		return;
+	}
 	keywords = data.words.trim().split(" ");
 	var searchHandler = {
 		course: function() {
 			var courseList = [];
-			console.log("message");
+
 			keywords.forEach(function(word) {
+				console.log(word);
 				Course.find({
 					title: new RegExp(word)
-				}, function(err, courses) {
+				}, 
+				'title author summary poster meta',
+				function(err, courses) {
 					if (err) {
 						console.log(err);
 						return;
 					}
 					console.log(courses);
-					courseList.push(courses)
+					res.json({
+						success: 1,
+						courses: courses
+					});
 				});
 			})
-			console.log(courseList);
-			res.json(courseList);
-		},
-		teacher: function() {
-			res.sendStatus(200)
+
 		},
 		discuss: function() {
-			res.sendStatus(200)
-		},
-		topic: function() {
-			res.senStatus(200)
+			res.json({
+				success: 0
+			})
 		}
 	}
 	switch (type) {

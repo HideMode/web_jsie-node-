@@ -16,7 +16,11 @@
 -----
 
 ## 项目截图
-![前台首页](https://github.com/HideMode/web_jsie/blob/master/screenshots/index.png)
-![课程列表](https://github.com/HideMode/web_jsie/blob/master/screenshots/course.png)
-![个人主页](https://github.com/HideMode/web_jsie/blob/master/screenshots/personal.png)
-![后台首页](https://github.com/HideMode/web_jsie/blob/master/screenshots/backend_index.png)
+前台首页
+    ![前台首页](https://github.com/HideMode/web_jsie/blob/master/screenshots/index.png)
+课程列表
+    ![课程列表](https://github.com/HideMode/web_jsie/blob/master/screenshots/course.png)
+个人主页
+    ![个人主页](https://github.com/HideMode/web_jsie/blob/master/screenshots/personal.png)
+后台首页
+    ![后台首页](https://github.com/HideMode/web_jsie/blob/master/screenshots/backend_index.png)

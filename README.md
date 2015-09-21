@@ -4,7 +4,7 @@
     1. 后台
         + 后台开发语言NodeJS(v0.10)
         + 后台开发框架express(v4)
-        + 模块引擎jade
+        + 模板引擎jade
 
     2. 前台
         + 前台开发框架Bootstrap(v3)
